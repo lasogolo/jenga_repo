@@ -1,0 +1,84 @@
+# pylint: disable=protected-access
+"""Contains the program which controls the robot."""
+
+import logging
+from math import radians
+from voraus_robot_arm import CartesianPose, JointPose, VorausIndustrialRobotArm, Percent, configure_logging
+
+_logger = logging.getLogger()
+home = JointPose(0, -1.57, 1.57, -1.57, -1.57, 0) # No se, lo cambie y no altero notoriamente el Bewegung
+pre_pick = JointPose().from_list(
+    [radians(d) for d in [80.41, -82.18, 93.56, -97.89, -87.37, 0]]
+)
+
+pre_pick_ic_vec=[]
+pick_ic_vec=[]
+pre_place_ic_vec=[]
+place_ic_vec=[]
+
+dz=0
+dy=0
+dr=0
+for i in range(3):
+    dx=0
+    dx_=0
+    dy_=-0.039
+
+    for j in range (3):
+        if (i%2 ==0) :
+            dy_ = 0  
+        else:
+            dx_ = -0.037#*2 
+
+        pre_pick_i = CartesianPose(0.3964+dx, 0.4487+dy, 0.2787, radians(176.13), radians(2.01), radians(9.58))
+        pick_ic = CartesianPose(0.3964+dx, 0.4487+dy, 0.21, radians(176.13), radians(2.01), radians(9.58))
+
+        pre_place_ic = CartesianPose(-0.3093+dx_, 0.4304+dy_, 0.2865+dz, radians(176.79), radians(0.50), radians(8.19+dr)) 
+        place_ic = CartesianPose(-0.3093+dx_, 0.4304+dy_, 0.23+dz, radians(176.79), radians(0.50), radians(8.19+dr)) 
+
+        pre_pick_ic_vec.append(pre_pick_i)
+        pick_ic_vec.append(pick_ic)
+        pre_place_ic_vec.append(pre_place_ic)
+        place_ic_vec.append(place_ic)
+        dx = dx - 0.07
+
+        if (i%2 ==0) :
+            dx_ = dx_ - 0.043 #revisar
+        dy_ +=0.043
+    dy += 0.16
+    dr += 90
+    dz += 0.03
+
+pre_place_i = JointPose().from_list(
+    [radians(d) for d in [142.23, -93.62, 111.79, -109.74, -87.16, -60.40]]
+)
+
+if __name__ == "__main__":
+    robot = VorausIndustrialRobotArm()
+
+    with robot.connect("voraus-core", port=48401):
+        robot._driver._objects.robot.commands.tool.set_tool_transformation_offset((0, 0, 0.103, 0, 0, 0))
+        tool_control_output = robot.get_digital_output_v(2)
+        robot.enable()
+
+        for i in range (9):
+            print("Press <enter> to pick.")
+            robot.move_ptp(pre_pick, blending=Percent(50), speed=Percent(100))
+            robot.move_ptp(pre_pick_ic_vec[i], blending=Percent(50), speed=Percent(50))
+            robot.move_linear(pick_ic_vec[i], velocity_mps=0.2).result()
+            tool_control_output.set()
+            robot.move_linear(pre_pick_ic_vec[i], velocity_mps=0.2)
+            robot.move_ptp(pre_pick).result()
+            print("Press <enter> to place.")
+            robot.move_ptp(pre_place_ic_vec[i], blending= Percent(50), speed=Percent(100))
+            robot.move_ptp(place_ic_vec[i], speed=Percent(20)).result()
+            tcp_pose = robot.get_tcp_pose()
+            _logger.info("The current TCP pose is %s", tcp_pose)
+            print("Press <enter> to leave.")
+            tool_control_output.clear()
+
+        input("Press <enter> to go back.")
+        robot.move_ptp(home)
+        while(robot.move_ptp(home).result() == False):
+            print("Robot is moving to home position.")
+  

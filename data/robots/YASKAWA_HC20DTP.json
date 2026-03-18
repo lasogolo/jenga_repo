@@ -1,0 +1,244 @@
+{
+    "Axes": [
+        {
+            "DH": {
+                "a": 0.0,
+                "alpha": -90.0,
+                "d": 0.38,
+                "theta": 0.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": -1,
+                "Partnumber": "none",
+                "RotationDirection": 1
+            },
+            "Limits": {
+                "MaxAcceleration": 160.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 80.0,
+                "PositionLimitationNegative": -210.0,
+                "PositionLimitationPositive": 210.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        },
+        {
+            "DH": {
+                "a": 0.82,
+                "alpha": 0.0,
+                "d": 0.0,
+                "theta": -90.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": 1,
+                "Partnumber": "none",
+                "RotationDirection": 1
+            },
+            "Limits": {
+                "MaxAcceleration": 160.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 80.0,
+                "PositionLimitationNegative": -180.0,
+                "PositionLimitationPositive": 180.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        },
+        {
+            "DH": {
+                "a": 0.0,
+                "alpha": -90.0,
+                "d": 0.0,
+                "theta": 0.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": 1,
+                "Partnumber": "none",
+                "RotationDirection": -1
+            },
+            "Limits": {
+                "MaxAcceleration": 240.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 120.0,
+                "PositionLimitationNegative": -67.0,
+                "PositionLimitationPositive": 247.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        },
+        {
+            "DH": {
+                "a": 0.0,
+                "alpha": 90.0,
+                "d": 0.88,
+                "theta": 0.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": -1,
+                "Partnumber": "none",
+                "RotationDirection": -1
+            },
+            "Limits": {
+                "MaxAcceleration": 260.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 130.0,
+                "PositionLimitationNegative": -210.0,
+                "PositionLimitationPositive": 210.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        },
+        {
+            "DH": {
+                "a": 0.0,
+                "alpha": -90.0,
+                "d": 0.0,
+                "theta": 0.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": 1,
+                "Partnumber": "none",
+                "RotationDirection": -1
+            },
+            "Limits": {
+                "MaxAcceleration": 360.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 180.0,
+                "PositionLimitationNegative": -180.0,
+                "PositionLimitationPositive": 180.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        },
+        {
+            "DH": {
+                "a": 0.0,
+                "alpha": 0.0,
+                "d": 0.2,
+                "theta": 0.0
+            },
+            "DriveParameters": {
+                "AxisType": "ROTATIONAL",
+                "GearRatio": 1.0,
+                "MountingDirection": -1,
+                "Partnumber": "none",
+                "RotationDirection": -1
+            },
+            "Limits": {
+                "MaxAcceleration": 360.0,
+                "MaxFollowingError": 5.0,
+                "MaxVelocity": 180.0,
+                "PositionLimitationNegative": -210.0,
+                "PositionLimitationPositive": 210.0
+            },
+            "LinkDynamics": {
+                "Ixx": 0.0,
+                "Ixy": 0.0,
+                "Ixz": 0.0,
+                "Iyy": 0.0,
+                "Iyz": 0.0,
+                "Izz": 0.0,
+                "XC": 0.0,
+                "YC": 0.0,
+                "ZC": 0.0,
+                "m": 0.0
+            }
+        }
+    ],
+    "CartesianWorkspace": {
+        "SlowDownDistance": 0.03,
+        "SlowDownFactor": 0.25,
+        "XMax": 2.0,
+        "XMin": -2.0,
+        "YMax": 2.0,
+        "YMin": -2.0,
+        "ZMax": 2.5,
+        "ZMin": -2.5
+    },
+    "CollisionModel": {
+        "CollisionPairs": [],
+        "Cylinders": []
+    },
+    "KinematicsType": "CrossedWrist6R",
+    "Manufacturer": "YASKAWA",
+    "MaxCartesianVelocity": 0.225,
+    "Name": "YASKAWA_HC20DTP",
+    "Number_of_modules": 6,
+    "RobotConfigVersion": 2,
+    "cycleTime": 0.004,
+    "elbow": {
+        "monitorPosition": false,
+        "monitorVelocity": false
+    },
+    "monitorMeasuredValues": {
+        "tcpVelocity": false
+    },
+    "ioInterfaces": {
+        "controlCabinet": {
+            "digitalInputs": 16,
+            "digitalOutputs": 16,
+            "analogInputs": 4,
+            "analogOutputs": 4
+        }
+    }
+}

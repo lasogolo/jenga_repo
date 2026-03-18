@@ -1,0 +1,16 @@
+{
+  "version": "7.0",
+  "tools": true,
+  "toolPath": true,
+  "commandBuilder": true,
+  "advanced": true,
+  "handguidingButton": false,
+  "docuPython": true,
+  "docuCommands": true,
+  "simulationMode": true,
+  "rescueMode": true,
+  "maintenance": false,
+  "remoteControl": true,
+  "docker": false,
+  "programEditor": true
+}

@@ -1,0 +1,17 @@
+{
+    "version": "1.1",
+    "offset": {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "rx": 0,
+      "ry": 0,
+      "rz": 0
+    },
+    "assets": [
+      {
+        "asset": "SCHMALZ_FQE_Xc_300x130_SW100.glb",
+        "objectName": "SCHMALZ_FQE_Xc_300x130_SW100"
+      }
+    ]
+  }

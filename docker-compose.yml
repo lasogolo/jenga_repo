@@ -1,0 +1,40 @@
+services:
+  codemeter:
+    extends:
+      file: ../common-services.yml
+      service: codemeter-base
+
+  voraus-core:
+    extends:
+      file: ../common-services.yml
+      service: voraus-core-base
+    ports:
+      - 8080:80
+      - 48401:48401
+    environment:
+      CODEMETER_HOST: codemeter
+    depends_on:
+      codemeter:
+        condition: service_healthy
+
+  voraus-3d-visu:
+    extends:
+      file: ../common-services.yml
+      service: voraus-3d-visu-base
+    ports:
+      - 8077:80
+    depends_on:
+      codemeter:
+        condition: service_healthy
+
+  devcontainer:
+    extends:
+      file: ../common-services.yml
+      service: devcontainer-base
+    volumes:
+      - .:/home/localuser/workspace:cached
+    depends_on:
+      codemeter:
+        condition: service_healthy
+      voraus-3d-visu:
+        condition: service_healthy
