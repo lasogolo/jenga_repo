@@ -11,8 +11,8 @@ import numpy as np
 from math import radians
 # Initial variables:
 
-x1=float(-0.3443) ; x2=float(-0.3443)
-y1=float(0.4734) ; y2=float(0.3914)
+x1=float(-0.3504) ; x2=float(-0.3504)
+y1=float(0.4704) ; y2=float(0.3882)
 z0=float(0.3300) ; pisos=int(6)
 h_slow = 0.05; h_fast=0.1; h = 0.0233; tol_pick=0; tol_place =0.01
 ho=0.21
@@ -40,23 +40,26 @@ pre_pre_place = []; pre_place = []; place = []
 new_pre_place=[]; new_place=[]
 new_pre_pick=[]; new_pick=[]
 
-
+b=0
 c = 0
 for i in range(int(pisos/2)):
     
+    # if b != 0: #rev
+    #     dz=dz-h-0.002
+
     p1=np.array([x1,y1,z0 + dz]); 
     p2=np.array([x2,y2,z0 + dz]); 
     p3=np.array([(x1+x2)/2,(y1+y2)/2,z0 + dz]); 
     # Sig. piso
     p5=np.array([p3[0],p3[1],p3[2]-h]); d23 = np.linalg.norm(p2-p3); d13 = np.linalg.norm(p1-p3)
     print(d23); print(d13) 
-    p45= d23 * np.cross(p5,np.array([0,0,-1])) / (np.linalg.norm(np.cross(p5,np.array([0,0,-1]))))
-    print (p45)
+    p45= d23 * np.cross((p3-p2),np.array([0,0,-1])) / (np.linalg.norm(np.cross((p3-p2),np.array([0,0,-1]))))
+   # print (p45)
     p4=np.array([p5[0]+p45[0],p5[1]+p45[1],p5[2]])
     #p4 = p5 + np.array([p45[0], p45[1], 0])
     print(p4)
-    p65= d13 * np.cross(p5,np.array([0,0,1])) / (np.linalg.norm(np.cross(p5,np.array([0,0,1]))))
-    print(p65)
+    p65= d13 * np.cross((p3-p2),np.array([0,0,1])) / (np.linalg.norm(np.cross((p3-p2),np.array([0,0,1]))))
+   # print(p65)
     p6=np.array([p5[0]+p65[0],p5[1]+p65[1],p5[2]])
     print(p6)
 
@@ -68,12 +71,14 @@ for i in range(int(pisos/2)):
         pre_pre_pick_i = CartesianPose(p[0], p[1], p[2] + h_fast, radians(rx), radians(ry), radians(rz + rz_off))
         pre_pick_i = CartesianPose(p[0], p[1], p[2] + h_slow, radians(rx), radians(ry), radians(rz + rz_off))
         pick_i = CartesianPose(p[0], p[1], p[2], radians(rx), radians(ry), radians(rz + rz_off))
+        print("pick")
+        print(pick_i)
 
         
         pre_pre_place_i = CartesianPose(p[0]+dx, p[1], ho + h_fast, radians(rx), radians(ry), radians(rz + rz_off))
         pre_place_i = CartesianPose(p[0]+dx, p[1], ho + h_slow, radians(rx), radians(ry), radians(rz + rz_off))
         place_i = CartesianPose(p[0]+dx, p[1], ho + tol_place, radians(rx), radians(ry), radians(rz + rz_off))
-        print(place_i)
+        #print(place_i)
         
         pre_pre_pick.append(pre_pre_pick_i)
         pre_pick.append(pre_pick_i) 
@@ -92,17 +97,20 @@ for i in range(int(pisos/2)):
         c += 1
         if ( c%3 ==0 ):
             ho += h
-    dz = dz - h
+    b +=1
+    dz = dz - 2*h -0.002
+    print(dz)
     print(ho)
+    print(i)
 
 # print(pre_pre_pick[0]); print(pre_pre_pick[1])
 # print(pre_pick[0]) ; print(pre_pick[1])
 # print(pick[0]) ; print(pick[1])
 
-print("place")
-print(pre_pre_place[2])
-print(pre_place[2]) 
-print(place[2]) 
+#print("place")
+#print(pre_pre_place[2])
+#print(pre_place[2]) 
+#print(place[2]) 
 
 new_pre_pre_place = pre_pre_pick ; new_pre_place = pre_pick
 new_pre_pre_pick = pre_pre_place ; new_pre_pick = pre_place
@@ -139,50 +147,105 @@ if __name__ == "__main__":
                 if ans == "nein":
                     print("danke")
                     break
-            f+=1
-            for j in range(18):
-                n = 18-1   #18-1
- 
-                #new pick
-                robot.move_ptp(pre_pre_pick[j], blending=Percent(50) , speed=Percent(100))
-                #print("en preprepick")
-                #print(pre_pre_pick[j])
-                robot.move_linear_v(pre_pick[j], blending=Percent(50), extra_parameters=custom_parameters)
-                #print("en prepick")
-                #print(pre_pick[j])
-                robot.move_linear_v(pick[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
-                print(pick[j])
-                sleep(1) #pause,stop... docu
-                tool_control_output.set()
-                robot.move_linear_v(pre_pick[j], blending=Percent(50) , velocity_mps=0.1)
-                robot.move_ptp(pre_pre_pick[j], blending=Percent(50) , speed=Percent(100))
+            ans2 = input("mit blending? ").lower()
+            if ans2 == "nein":
+                print("oks, ohne blending")
+                f+=1
+                for j in range(18):
+                    print(j)
+                    n = 18-1   #18-1
+    
+                    #new pick
+                    robot.move_ptp(pre_pre_pick[j], speed=Percent(100))
+                    #print("en preprepick")
+                    #print(pre_pre_pick[j])
+                    robot.move_linear_v(pre_pick[j], extra_parameters=custom_parameters)
+                    #print("en prepick")
+                    #print(pre_pick[j])
+                    robot.move_linear_v(pick[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    #input("mueveme")
+                    print(pick[j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.set()
+                    robot.move_linear_v(pre_pick[j], velocity_mps=0.1)
+                    robot.move_ptp(pre_pre_pick[j], speed=Percent(100))
 
-                robot.move_ptp(pre_pre_place[j], blending= Percent(50), speed=Percent(100))
+                    robot.move_ptp(pre_pre_place[j], speed=Percent(100))
 
-                robot.move_ptp(pre_place[j], blending= Percent(50), speed=Percent(100))
-                robot.move_linear_v(place[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
-                print("en place")
-                print(place[j])
+                    robot.move_ptp(pre_place[j], speed=Percent(100))
+                    robot.move_linear_v(place[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    print("en place")
+                    print(place[j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.clear()
+                    robot.move_linear_v(pre_place[j], velocity_mps=0.2, extra_parameters=custom_parameters)
+                    robot.move_linear_v(pre_pre_place[j], velocity_mps=0.2, extra_parameters=custom_parameters)
+                    
                 sleep(1) #pause,stop... docu
-                tool_control_output.clear()
-                robot.move_linear_v(pre_place[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
-                robot.move_linear_v(pre_pre_place[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
-                
-            sleep(1) #pause,stop... docu
-            for j in range(18):
-                n = 18-1
-                #new pick
-                robot.move_ptp(pre_place[n-j], blending=Percent(50) , speed=Percent(100))
-                robot.move_linear_v(new_pick[n-j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                input("ya voy a devolver la torre")
+                for j in range(18):
+                    n = 18-1
+                    print(j)
+                    #new pick
+                    robot.move_ptp(pre_place[n-j], speed=Percent(100))
+                    print(pre_place[n-j])
+                    robot.move_linear_v(new_pick[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    print("pick")
+                    print(new_pick[j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.set()
+                    robot.move_linear_v(pre_place[n-j], velocity_mps=0.2, extra_parameters=custom_parameters)
+                    print(pre_place[n-j])
+    
+                    robot.move_ptp(pre_pick[n-j], speed=Percent(100))
+                    print(pre_pick[n-j])
+                    robot.move_linear_v(new_place[n-j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    print("place")
+                    print(new_place[n-j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.clear()
+                    robot.move_linear_v(pre_pick[n-j], velocity_mps=0.2, extra_parameters=custom_parameters)
+                    print(pre_pick[n-j])
+            else: 
+                f+=1
+                for j in range(18):
+                    n = 18-1   #18-1
+    
+                    #new pick
+                    robot.move_ptp(pre_pre_pick[j], blending=Percent(50) , speed=Percent(100))
+                    robot.move_linear_v(pre_pick[j], blending=Percent(50), extra_parameters=custom_parameters)
+                    robot.move_linear_v(pick[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    print(pick[j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.set()
+                    robot.move_linear_v(pre_pick[j], blending=Percent(50) , velocity_mps=0.1)
+                    robot.move_ptp(pre_pre_pick[j], blending=Percent(50) , speed=Percent(100))
+
+                    robot.move_ptp(pre_pre_place[j], blending= Percent(50), speed=Percent(100))
+                    robot.move_ptp(pre_place[j], blending= Percent(50), speed=Percent(100))
+                    robot.move_linear_v(place[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    print("en place")
+                    print(place[j])
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.clear()
+                    robot.move_linear_v(pre_place[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
+                    robot.move_linear_v(pre_pre_place[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
+                    
                 sleep(1) #pause,stop... docu
-                tool_control_output.set()
-                robot.move_linear_v(pre_place[n-j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
- 
-                robot.move_ptp(pre_pick[j], blending= Percent(50), speed=Percent(100))
-                robot.move_linear_v(new_place[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
-                sleep(1) #pause,stop... docu
-                tool_control_output.clear()
-                robot.move_linear_v(pre_pick[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
+                for j in range(18):
+                    n = 18-1
+                    #new pick
+                    robot.move_ptp(pre_place[n-j], blending=Percent(50) , speed=Percent(100))
+                    robot.move_linear_v(new_pick[n-j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.set()
+                    robot.move_linear_v(pre_place[n-j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
+    
+                    robot.move_ptp(pre_pick[j], blending= Percent(50), speed=Percent(100))
+                    robot.move_linear_v(new_place[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                    sleep(1) #pause,stop... docu
+                    tool_control_output.clear()
+                    robot.move_linear_v(pre_pick[j], blending=Percent(50) , velocity_mps=0.2, extra_parameters=custom_parameters)
  
             m=m+1
             input("Press <enter> to go back.")

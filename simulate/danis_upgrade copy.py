@@ -133,6 +133,7 @@ if __name__ == "__main__":
                 print("en prepick")
                 print(pre_pick[j])
                 robot.move_linear_v(pick[j], velocity_mps=0.2, extra_parameters=custom_parameters).result()
+                int("revisa kchon")
                 print(pick[j])
                 sleep(1) #pause,stop... docu
                 tool_control_output.set()
