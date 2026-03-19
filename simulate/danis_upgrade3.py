@@ -150,9 +150,9 @@ if __name__ == "__main__":
             if ans2 == "nein":
                 print("oks, ohne blending")
                 f+=1
-                for j in range(18):
+                for j in range(36):
                     print(j)
-                    n = 18-1   #18-1
+                    n = 36-1   #18-1
     
                     #new pick
                     robot.move_ptp(pre_pre_pick[j], speed=Percent(100))
